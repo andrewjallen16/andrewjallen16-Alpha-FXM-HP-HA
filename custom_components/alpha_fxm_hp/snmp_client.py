@@ -129,7 +129,7 @@ class UpsData:
 
     input_line_bads: int | None = None
     input_frequency: float | None = None
-    input_voltage: int | None = None
+    input_voltage: float | None = None
     input_current: float | None = None
     input_true_power: int | None = None
 
@@ -397,7 +397,12 @@ async def async_poll(
         battery_temperature=raw.get(OID_BATTERY_TEMPERATURE),
         input_line_bads=raw.get(OID_INPUT_LINE_BADS),
         input_frequency=_scaled(OID_INPUT_FREQUENCY, 0.1),
-        input_voltage=raw.get(OID_INPUT_VOLTAGE),
+        # NOTE: RFC 1628 specifies upsInputVoltage as unscaled RMS Volts, but
+        # this vendor's firmware actually reports it in tenths of a volt
+        # (confirmed against a live unit: raw 1188 on a 120V-nominal circuit
+        # only makes sense as 118.8V). upsOutputVoltage on the same firmware
+        # *is* unscaled as spec'd, so this quirk is input-voltage-specific.
+        input_voltage=_scaled(OID_INPUT_VOLTAGE, 0.1),
         input_current=_scaled(OID_INPUT_CURRENT, 0.1),
         input_true_power=raw.get(OID_INPUT_TRUE_POWER),
         output_source=_enum(OID_OUTPUT_SOURCE, OUTPUT_SOURCE_MAP),

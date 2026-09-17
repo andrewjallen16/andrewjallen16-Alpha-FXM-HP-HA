@@ -7,5 +7,5 @@
   "issue_tracker": "https://github.com/andrewjallen16/Alpha-FXM-HP-HA/issues",
   "iot_class": "local_polling",
   "requirements": ["pysnmp==7.1.21"],
-  "version": "0.2.0"
+  "version": "0.2.1"
 }

@@ -105,7 +105,18 @@ vendors (this one included, on some units) only implement the basic group.
 `upsInputCurrent`, `upsInputTruePower`, and `upsOutputPercentLoad` are
 advanced-only fields; if the dump shows `<NoSuchObject>` or `<NoSuchInstance>`
 for those, your firmware just doesn't publish them over SNMP — that's a
-device limitation, not something the integration can fix.
+device limitation, not something the integration can fix. Likewise, if the
+dump has no `1.3.6.1.2.1.33.1.5.x` entries at all, your unit has no bypass
+line implemented and the bypass sensors will always read unknown (they're
+disabled by default for this reason).
+
+**Known vendor quirk:** on at least one confirmed unit, `upsInputVoltage`
+is reported in tenths of a volt even though RFC 1628 specifies it as
+unscaled RMS Volts — `upsOutputVoltage` on the same firmware *is* unscaled,
+exactly as spec'd. The integration accounts for this (input voltage is
+divided by 10, output voltage is not). If your own dump shows an input
+voltage reading that's clearly off by 10x from your output voltage or a
+multimeter reading, let the maintainer know your model/firmware.
 
 ## Notes / troubleshooting
 
