@@ -1,0 +1,83 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Add Alpha FXM HP UPS",
+        "description": "Each unit you add becomes its own device, so add this form again for every FXM HP you have.",
+        "data": {
+          "name": "Name",
+          "host": "Host or IP address",
+          "port": "SNMP port",
+          "snmp_version": "SNMP version"
+        }
+      },
+      "community": {
+        "title": "SNMP community",
+        "data": {
+          "community": "Community string"
+        }
+      },
+      "v3": {
+        "title": "SNMPv3 credentials",
+        "data": {
+          "username": "Username",
+          "auth_protocol": "Authentication protocol",
+          "auth_key": "Authentication password",
+          "priv_protocol": "Privacy (encryption) protocol",
+          "priv_key": "Privacy password"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Could not reach the UPS over SNMP. Check the host, port, and credentials.",
+      "unknown": "Unexpected error while testing the connection.",
+      "auth_key_required": "An authentication password is required for this protocol.",
+      "priv_key_required": "A privacy password is required for this protocol."
+    },
+    "abort": {
+      "already_configured": "This UPS (host/port) is already configured."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "scan_interval": "Polling interval (seconds)"
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "battery_status": { "name": "Battery status" },
+      "charge_remaining": { "name": "Battery charge" },
+      "minutes_remaining": { "name": "Estimated runtime" },
+      "seconds_on_battery": { "name": "Time on battery" },
+      "battery_voltage": { "name": "Battery voltage" },
+      "battery_current": { "name": "Battery current" },
+      "battery_temperature": { "name": "Battery temperature" },
+      "input_voltage": { "name": "Input voltage" },
+      "input_frequency": { "name": "Input frequency" },
+      "input_current": { "name": "Input current" },
+      "input_true_power": { "name": "Input power" },
+      "input_line_bads": { "name": "Input out-of-tolerance events" },
+      "output_source": { "name": "Output source" },
+      "output_voltage": { "name": "Output voltage" },
+      "output_frequency": { "name": "Output frequency" },
+      "output_current": { "name": "Output current" },
+      "output_power": { "name": "Output power" },
+      "output_percent_load": { "name": "Output load" },
+      "bypass_voltage": { "name": "Bypass voltage" },
+      "bypass_frequency": { "name": "Bypass frequency" },
+      "alarms_present": { "name": "Active alarms" }
+    },
+    "binary_sensor": {
+      "on_battery": { "name": "On battery" },
+      "on_bypass": { "name": "On bypass" },
+      "problem": { "name": "Problem" }
+    },
+    "button": {
+      "dump_snmp_data": { "name": "Dump SNMP diagnostics" }
+    }
+  }
+}
