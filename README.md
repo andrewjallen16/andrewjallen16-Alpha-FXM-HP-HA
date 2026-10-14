@@ -31,6 +31,13 @@ undocumented OIDs, and getting a write wrong on a UPS can cut power to
 whatever it protects. If you need control, please open an issue and share the
 compiled `ALPHA-RESOURCE-MIB` for your controller firmware.
 
+## Branding
+
+The integration ships its own icon and logo in
+`custom_components/alpha_fxm_hp/brand/` (dark background). Home Assistant
+**2026.3 or newer** shows these automatically on the Integrations page, in the
+Add Integration dialog, and in HACS; older versions simply show a placeholder.
+
 ## Requirements
 
 - Home Assistant 2024.x or newer.
@@ -117,6 +124,14 @@ exactly as spec'd. The integration accounts for this (input voltage is
 divided by 10, output voltage is not). If your own dump shows an input
 voltage reading that's clearly off by 10x from your output voltage or a
 multimeter reading, let the maintainer know your model/firmware.
+
+## Optional sensors
+
+Input current, input power, output load, and the bypass sensors are only
+created if your unit actually returns a value for them on first setup, so
+units that don't implement those optional UPS-MIB fields won't show a
+permanent "unknown" entity. If you upgraded from an earlier version, delete
+any leftover "no longer provided" entities from the entity list once.
 
 ## Notes / troubleshooting
 

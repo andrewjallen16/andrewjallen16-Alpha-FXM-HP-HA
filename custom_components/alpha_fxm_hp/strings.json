@@ -49,35 +49,100 @@
   },
   "entity": {
     "sensor": {
-      "battery_status": { "name": "Battery status" },
-      "charge_remaining": { "name": "Battery charge" },
-      "minutes_remaining": { "name": "Estimated runtime" },
-      "seconds_on_battery": { "name": "Time on battery" },
-      "battery_voltage": { "name": "Battery voltage" },
-      "battery_current": { "name": "Battery current" },
-      "battery_temperature": { "name": "Battery temperature" },
-      "input_voltage": { "name": "Input voltage" },
-      "input_frequency": { "name": "Input frequency" },
-      "input_current": { "name": "Input current" },
-      "input_true_power": { "name": "Input power" },
-      "input_line_bads": { "name": "Input out-of-tolerance events" },
-      "output_source": { "name": "Output source" },
-      "output_voltage": { "name": "Output voltage" },
-      "output_frequency": { "name": "Output frequency" },
-      "output_current": { "name": "Output current" },
-      "output_power": { "name": "Output power" },
-      "output_percent_load": { "name": "Output load" },
-      "bypass_voltage": { "name": "Bypass voltage" },
-      "bypass_frequency": { "name": "Bypass frequency" },
-      "alarms_present": { "name": "Active alarms" }
+      "battery_status": {
+        "name": "Battery status",
+        "state": {
+          "unknown": "Unknown",
+          "normal": "Normal",
+          "low": "Low",
+          "depleted": "Depleted"
+        }
+      },
+      "charge_remaining": {
+        "name": "Battery charge"
+      },
+      "minutes_remaining": {
+        "name": "Estimated runtime"
+      },
+      "seconds_on_battery": {
+        "name": "Time on battery"
+      },
+      "battery_voltage": {
+        "name": "Battery voltage"
+      },
+      "battery_current": {
+        "name": "Battery current"
+      },
+      "battery_temperature": {
+        "name": "Battery temperature"
+      },
+      "input_voltage": {
+        "name": "Input voltage"
+      },
+      "input_frequency": {
+        "name": "Input frequency"
+      },
+      "input_current": {
+        "name": "Input current"
+      },
+      "input_true_power": {
+        "name": "Input power"
+      },
+      "input_line_bads": {
+        "name": "Input out-of-tolerance events"
+      },
+      "output_source": {
+        "name": "Output source",
+        "state": {
+          "other": "Other",
+          "none": "None",
+          "normal": "Utility (normal)",
+          "bypass": "Bypass",
+          "battery": "Battery",
+          "booster": "Booster",
+          "reducer": "Reducer"
+        }
+      },
+      "output_voltage": {
+        "name": "Output voltage"
+      },
+      "output_frequency": {
+        "name": "Output frequency"
+      },
+      "output_current": {
+        "name": "Output current"
+      },
+      "output_power": {
+        "name": "Output power"
+      },
+      "output_percent_load": {
+        "name": "Output load"
+      },
+      "bypass_voltage": {
+        "name": "Bypass voltage"
+      },
+      "bypass_frequency": {
+        "name": "Bypass frequency"
+      },
+      "alarms_present": {
+        "name": "Active alarms"
+      }
     },
     "binary_sensor": {
-      "on_battery": { "name": "On battery" },
-      "on_bypass": { "name": "On bypass" },
-      "problem": { "name": "Problem" }
+      "on_battery": {
+        "name": "On battery"
+      },
+      "on_bypass": {
+        "name": "On bypass"
+      },
+      "problem": {
+        "name": "Problem"
+      }
     },
     "button": {
-      "dump_snmp_data": { "name": "Dump SNMP diagnostics" }
+      "dump_snmp_data": {
+        "name": "Dump SNMP diagnostics"
+      }
     }
   }
 }

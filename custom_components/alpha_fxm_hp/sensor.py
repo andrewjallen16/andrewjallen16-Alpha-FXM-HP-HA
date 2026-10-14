@@ -24,7 +24,7 @@ from homeassistant.const import (
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
-from .const import DOMAIN
+from .const import BATTERY_STATUS_MAP, DOMAIN, OUTPUT_SOURCE_MAP
 from .coordinator import AlphaFxmHpCoordinator
 from .entity import AlphaFxmHpEntity
 
@@ -41,6 +41,8 @@ SENSOR_DESCRIPTIONS: tuple[AlphaFxmHpSensorDescription, ...] = (
         key="battery_status",
         value_key="battery_status",
         translation_key="battery_status",
+        device_class=SensorDeviceClass.ENUM,
+        options=list(BATTERY_STATUS_MAP.values()),
         icon="mdi:battery-heart-variant",
     ),
     AlphaFxmHpSensorDescription(
@@ -137,6 +139,8 @@ SENSOR_DESCRIPTIONS: tuple[AlphaFxmHpSensorDescription, ...] = (
         key="output_source",
         value_key="output_source",
         translation_key="output_source",
+        device_class=SensorDeviceClass.ENUM,
+        options=list(OUTPUT_SOURCE_MAP.values()),
         icon="mdi:transmission-tower",
     ),
     AlphaFxmHpSensorDescription(
@@ -210,13 +214,31 @@ SENSOR_DESCRIPTIONS: tuple[AlphaFxmHpSensorDescription, ...] = (
 )
 
 
+# Fields the UPS-MIB only requires in its "advanced" conformance group (or that
+# need physical bypass hardware). Many units don't implement them, so we only
+# create these entities if the unit actually returned a value on first poll.
+OPTIONAL_KEYS = {
+    "input_current",
+    "input_true_power",
+    "output_percent_load",
+    "bypass_voltage",
+    "bypass_frequency",
+}
+
+
 async def async_setup_entry(
     hass: HomeAssistant, entry: ConfigEntry, async_add_entities: AddEntitiesCallback
 ) -> None:
     """Set up sensors for one Alpha FXM HP UPS config entry."""
     coordinator: AlphaFxmHpCoordinator = hass.data[DOMAIN][entry.entry_id]
+    data = coordinator.data
     async_add_entities(
-        AlphaFxmHpSensor(coordinator, description) for description in SENSOR_DESCRIPTIONS
+        AlphaFxmHpSensor(coordinator, description)
+        for description in SENSOR_DESCRIPTIONS
+        if not (
+            description.key in OPTIONAL_KEYS
+            and getattr(data, description.value_key, None) is None
+        )
     )
 
 
@@ -235,4 +257,8 @@ class AlphaFxmHpSensor(AlphaFxmHpEntity, SensorEntity):
     def native_value(self) -> Any:
         if self.coordinator.data is None:
             return None
-        return getattr(self.coordinator.data, self.entity_description.value_key, None)
+        value = getattr(self.coordinator.data, self.entity_description.value_key, None)
+        options = self.entity_description.options
+        if options is not None and value not in options:
+            return None  # unmapped enum value from the device
+        return value
